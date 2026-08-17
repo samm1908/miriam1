@@ -30,10 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateAge();
 
     // --- Initialize AOS (Animate on Scroll) ---
-    AOS.init({
-        duration: 800,
-        once: true,
-    });
+    AOS.init({ duration: 800, once: true });
 
     // --- Initialize LightGallery ---
     lightGallery(document.getElementById('lightgallery'), {
@@ -47,31 +44,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const scrollRightBtn = document.getElementById('scroll-right-btn');
     if (scroller && scrollLeftBtn && scrollRightBtn) {
         const card = scroller.querySelector('.snap-center');
-        const cardWidth = card.offsetWidth + parseInt(getComputedStyle(card.parentElement).gap);
-
-        scrollRightBtn.addEventListener('click', () => {
-            scroller.scrollBy({ left: cardWidth, behavior: 'smooth' });
-        });
-        scrollLeftBtn.addEventListener('click', () => {
-            scroller.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-        });
+        if (card) {
+            const cardWidth = card.offsetWidth + parseInt(getComputedStyle(card.parentElement).gap);
+            scrollRightBtn.addEventListener('click', () => scroller.scrollBy({ left: cardWidth, behavior: 'smooth' }));
+            scrollLeftBtn.addEventListener('click', () => scroller.scrollBy({ left: -cardWidth, behavior: 'smooth' }));
+        }
     }
 
     // --- Video Uploader ---
     const videoUploadInput = document.getElementById('video-upload');
     const videoPlayer = document.getElementById('video-player');
     const videoUploadLabel = document.getElementById('video-upload-label');
-
-    if(videoUploadInput && videoPlayer && videoUploadLabel) {
-        videoUploadLabel.addEventListener('click', () => {
-            videoUploadInput.click();
-        });
-
+    if (videoUploadInput && videoPlayer && videoUploadLabel) {
+        videoUploadLabel.addEventListener('click', () => videoUploadInput.click());
         videoUploadInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
-                const videoURL = URL.createObjectURL(file);
-                videoPlayer.src = videoURL;
+                videoPlayer.src = URL.createObjectURL(file);
                 videoPlayer.classList.remove('hidden');
                 videoUploadLabel.classList.add('hidden');
                 videoPlayer.play();
@@ -99,10 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
             this.w = 25 + Math.random() * 15;
             this.h = 20 + Math.random() * 10;
             this.opacity = this.w / 40;
-            this.flip = Math.random();
             this.xSpeed = 1.5 + Math.random() * 2;
-            this.ySpeed = 1 + Math.random() * 1;
-            this.flipSpeed = Math.random() * 0.03;
+            this.ySpeed = 1 + Math.random();
         }
 
         Petal.prototype.draw = function() {
@@ -110,8 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.x = -this.w;
                 this.y = Math.random() * canvas.height * 2 - canvas.height;
                 this.xSpeed = 1.5 + Math.random() * 2;
-                this.ySpeed = 1 + Math.random() * 1;
-                this.flip = Math.random();
+                this.ySpeed = 1 + Math.random();
             }
             ctx.globalAlpha = this.opacity;
             ctx.beginPath();
@@ -121,27 +107,22 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.closePath();
             ctx.fillStyle = '#FFB7C5';
             ctx.fill();
-        }
+        };
 
         Petal.prototype.update = function() {
             this.x += this.xSpeed;
             this.y += this.ySpeed;
-            this.flip += this.flipSpeed;
             this.draw();
-        }
+        };
 
         function createPetals() {
             petals = [];
-            for (let i = 0; i < numPetals; i++) {
-                petals.push(new Petal());
-            }
+            for (let i = 0; i < numPetals; i++) petals.push(new Petal());
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            petals.forEach(petal => {
-                petal.update();
-            });
+            petals.forEach(petal => petal.update());
             requestAnimationFrame(animate);
         }
 
@@ -149,24 +130,15 @@ document.addEventListener('DOMContentLoaded', function() {
         animate();
     }
 
-    // --- Fix Our Life Together images ---
-    // Use the repository's raw image URLs as a fallback/absolute source.
-    const lifeImages = [
-        'img1.png',
-        'img2.png',
-        'img3.png',
-        'img4.png',
-        'img5.png'
-    ];
+    // --- Our Life Together images ---
+    // Force these five images to load from the deployed site's root path.
+    const lifeImages = ['img1.png', 'img2.png', 'img3.png', 'img4.png', 'img5.png'];
+    const lifeImageElements = document.querySelectorAll('img[src^="img/img"]');
 
-    document.querySelectorAll('img[src^="img/img"]').forEach((image, index) => {
+    lifeImageElements.forEach((image, index) => {
         if (index < lifeImages.length) {
-            const rawUrl = `https://raw.githubusercontent.com/samm1908/miriam1/main/img/${lifeImages[index]}`;
-            image.src = rawUrl;
-            image.onerror = function() {
-                this.removeAttribute('src');
-                this.alt = 'Image could not be loaded';
-            };
+            image.src = `./img/${lifeImages[index]}?v=2`;
+            image.loading = 'lazy';
         }
     });
 });
