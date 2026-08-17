@@ -131,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Our Life Together images ---
-    // Force these five images to load from the deployed site's root path.
     const lifeImages = ['img1.png', 'img2.png', 'img3.png', 'img4.png', 'img5.png'];
     const lifeImageElements = document.querySelectorAll('img[src^="img/img"]');
 
@@ -141,4 +140,19 @@ document.addEventListener('DOMContentLoaded', function() {
             image.loading = 'lazy';
         }
     });
+
+    // --- Your Journey gallery images ---
+    // The gallery images live inside the img folder. The original HTML used
+    // root-level paths (Img1.png, Img2.png, etc.), which do not work on GitHub Pages.
+    const journeyGallery = document.getElementById('lightgallery');
+    if (journeyGallery) {
+        journeyGallery.querySelectorAll('a[href^="Img"]').forEach((link) => {
+            const filename = link.getAttribute('href');
+            link.setAttribute('href', `./img/${filename}`);
+        });
+        journeyGallery.querySelectorAll('img[src^="Img"]').forEach((image) => {
+            const filename = image.getAttribute('src');
+            image.setAttribute('src', `./img/${filename}`);
+        });
+    }
 });
