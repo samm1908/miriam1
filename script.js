@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-
     // --- Sakura Petal Animation ---
     const canvas = document.getElementById('sakura-canvas');
     if (canvas) {
@@ -149,5 +148,25 @@ document.addEventListener('DOMContentLoaded', function() {
         createPetals();
         animate();
     }
-});
 
+    // --- Fix Our Life Together images ---
+    // Use the repository's raw image URLs as a fallback/absolute source.
+    const lifeImages = [
+        'img1.png',
+        'img2.png',
+        'img3.png',
+        'img4.png',
+        'img5.png'
+    ];
+
+    document.querySelectorAll('img[src^="img/img"]').forEach((image, index) => {
+        if (index < lifeImages.length) {
+            const rawUrl = `https://raw.githubusercontent.com/samm1908/miriam1/main/img/${lifeImages[index]}`;
+            image.src = rawUrl;
+            image.onerror = function() {
+                this.removeAttribute('src');
+                this.alt = 'Image could not be loaded';
+            };
+        }
+    });
+});
