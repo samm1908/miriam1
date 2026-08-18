@@ -1,40 +1,28 @@
 /* Custom styles for our Anime Theme */
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #FFF1F5; /* Soft blush pink */
-    color: #3A2633; /* Warm dark plum */
-}
-.font-anime {
-    font-family: 'Mochiy Pop One', sans-serif;
-}
-.text-sakura {
-    color: #D96B8A; /* Muted rose pink */
-}
-.bg-navy {
-    background-color: #3A2633; /* Dark plum */
+body { font-family: 'Poppins', sans-serif; background-color: #FFF1F5; color: #3A2633; }
+.font-anime { font-family: 'Mochiy Pop One', sans-serif; }
+.text-sakura { color: #D96B8A; }
+.bg-navy { background-color: #3A2633; }
+header { background: linear-gradient(135deg, #2b172d, #6b304f, #9b4f72); }
+img { max-width: 100%; }
+
+/* Glimpses from Our year together */
+#hall-of-fame-scroller img { width: 100%; height: 20rem; object-fit: contain; background: #fff; }
+
+@media (max-width: 767px) {
+  header h1 { font-size: 2.5rem; line-height: 1.2; }
+  header p { font-size: 1rem; }
+  #countdown { font-size: 1.1rem; letter-spacing: 0.08em; }
+  main { padding-left: 1rem; padding-right: 1rem; }
+
+  /* On phones, show one complete photo card at a time */
+  #hall-of-fame-scroller { padding: 0.5rem; margin: 0; }
+  #hall-of-fame-scroller > div { gap: 1rem; }
+  #hall-of-fame-scroller > div > div { width: 88vw; }
+  #hall-of-fame-scroller > div > div > div { padding: 1rem; }
+  #hall-of-fame-scroller img { height: auto; max-height: 70vh; object-fit: contain; }
 }
 
-/* Countdown / opening section background */
-header {
-    background: linear-gradient(135deg, #2b172d, #6b304f, #9b4f72);
-}
-
-/* Style for the falling petals canvas */
-#sakura-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 5;
-    pointer-events: none;
-}
-
-/* For hiding the scrollbar */
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
+#sakura-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
